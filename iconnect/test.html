@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i!Connect - Top Influencers for Brand Partnerships</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine-ie11.min.js" defer></script>
+</head>
+<body class="bg-gray-100" x-data="appData()">
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-3xl font-bold">i!Connect</h1>
+        <p class="mt-2">Connecting Brands with Top Influencers</p>
+    </header>
+
+    <main class="container mx-auto mt-8 p-4">
+        <section id="filters" class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Filter Influencers</h2>
+            <div class="flex flex-wrap gap-4">
+                <div>
+                    <label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
+                    <select id="genre" x-model="filters.genre" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                        <option value="">All Genres</option>
+                        <option value="Fashion & Lifestyle">Fashion & Lifestyle</option>
+                        <option value="Tech & Gaming">Tech & Gaming</option>
+                        <option value="Fitness & Health">Fitness & Health</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="Philosophy">Philosophy</option>
+                        <option value="Nature">Nature</option>
+                        <option value="Animal and Nature">Animal and Nature</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="followers" class="block text-sm font-medium text-gray-700">Minimum Followers</label>
+                    <input type="number" id="followers" x-model.number="filters.minFollowers" min="0" step="100000" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" placeholder="Enter minimum followers">
+                </div>
+                <div>
+                    <button @click="applyFilters()" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Apply Filters</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="influencers" class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4">Top Influencers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="influencer in filteredInfluencers" :key="influencer.id">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <img :src="influencer.image" :alt="influencer.name" class="w-32 h-32 rounded-full mx-auto mb-4">
+                        <h3 class="text-xl font-semibold text-center" x-text="influencer.name"></h3>
+                        <p class="text-gray-600 text-center" x-text="influencer.genre"></p>
+                        <p class="mt-2 text-center" x-text="influencer.followers.toLocaleString() + ' Followers'"></p>
+                        <button @click="openPortfolio(influencer.id)" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">View Portfolio</button>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <section id="contact" class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4">Contact for Partnership</h2>
+            <form>
+                <div class="mb-4">
+                    <label for="brand-name" class="block text-gray-700 font-semibold mb-2">Brand Name</label>
+                    <input type="text" id="brand-name" name="brand-name" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                    <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-700 font-semibold mb-2">Message</label>
+                    <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border rounded-lg" required></textarea>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Send</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-4 mt-12">
+        <p>&copy; 2024 i!Connect. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function appData() {
+            return {
+                influencersData: [
+                    { id: 1, name: "Jane Doe", genre: "Fashion & Lifestyle", followers: 1200000, image: "/DP/Designer.jpeg" },
+                    { id: 2, name: "John Smith", genre: "Tech & Gaming", followers: 800000, image: "/DP/Designer (1).jpeg" },
+                    { id: 3, name: "Emily Brown", genre: "Fitness & Health", followers: 500000, image: "/DP/Designer (2).jpeg" },
+                    { id: 4, name: "Krimhilde Letty", genre: "Lifestyle", followers: 4500000, image: "/DP/Designer (3).jpg" },
+                    { id: 5, name: "Anvar Epiktetos", genre: "Travel", followers: 8100000, image: "/DP/Designer (4).jpg" },
+                    { id: 6, name: "Tulugaq Ige", genre: "Travel", followers: 647000, image: "/DP/Designer (5).jpg" },
+                    { id: 7, name: "Rob Nikita", genre: "Fashion & Lifestyle", followers: 467000, image: "/DP/Designer (6).jpg" },
+                    { id: 8, name: "Chrétien Sjarel", genre: "Self-Help", followers: 933000, image: "/DP/Designer (7).jpg" },
+                    { id: 9, name: "Vratislav Quanah", genre: "Philosophy", followers: 3100000, image: "/DP/Designer (8).jpg" },
+                    { id: 10, name: "Neely Mokhtar", genre: "Nature", followers: 1600000, image: "/DP/Designer (9).jpg" },
+                    { id: 11, name: "Laban Rónán", genre: "Lifestyle", followers: 2200000, image: "/DP/Designer (10).jpg" },
+                    { id: 12, name: "Nahuel Anacletus", genre: "Animal and Nature", followers: 700000, image: "/DP/Designer (11).jpg" },
+                ],
+                filters: {
+                    genre: '',
+                    minFollowers: 0
+                },
+                filteredInfluencers: [],
+                init() {
+                    this.filteredInfluencers = this.influencersData;
+                },
+                applyFilters() {
+                    this.filteredInfluencers = this.influencersData.filter(influencer => 
+                        (this.filters.genre === '' || influencer.genre === this.filters.genre) &&
+                        influencer.followers >= this.filters.minFollowers
+                    );
+                },
+                openPortfolio(influencerId) {
+                    window.location.href = `portfolio.html?id=${influencerId}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
